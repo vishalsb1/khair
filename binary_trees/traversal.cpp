@@ -48,7 +48,7 @@ node *create_tree(){
 // traversal techiniques 
 
 
-// dfs 
+// dfs - depth first search 
 // 1 preorder 
 
 void preorder_traversal(node* root){
@@ -63,9 +63,9 @@ void preorder_traversal(node* root){
 void inorder_traversal(node* root){
     if(root==NULL)return;
 
-    preorder_traversal(root->left);
+    inorder_traversal(root->left);
     cout<<root->data<<" ";
-    preorder_traversal(root->right);
+    inorder_traversal(root->right);
     
 }
 
@@ -89,6 +89,7 @@ vector<vector<int>> level_order_traversal(node* root){
 
     if(root!=NULL){
         q.push(root);
+        
     }
 
     while(!q.empty()){
@@ -107,6 +108,38 @@ vector<vector<int>> level_order_traversal(node* root){
         ans.push_back(level);
     }
     return ans;
+}
+
+void level_order_traversal_no_space(node* root){
+
+    cout<<"|--Breath First Search--|"<<endl;
+    
+    queue<node*> q;
+
+    if(root!=NULL){
+        q.push(root);
+        q.push(NULL);
+    }
+
+    while(!q.empty()){
+        int n=q.size();
+        // vector<int> level;
+        
+        for(int i=0;i<n;i++){
+            node* temp=q.front();
+            q.pop();
+
+            if(temp!=NULL){
+                if(temp->left!=NULL) q.push(temp->left);
+                if(temp->right!=NULL) q.push(temp->right);
+                cout<<temp->data<<" ";
+            }else{
+                if(!q.empty())
+                    q.push(NULL);
+                cout<<endl;
+            }
+        }
+    }
 }
 
 // iterative traversals 
@@ -332,11 +365,14 @@ int main() {
     //     }cout<<endl;
     // }
 
+    // level_order_traversal_no_space(root);
+
+
     // iterative_pre(root);
     // iterative_inorder(root);
     // iterative_postorder_2st(root);
     // iterative_postorder_1st(root);
 
-    preInPostTraversal(root);
+    // preInPostTraversal(root);
     return 0;
 }
