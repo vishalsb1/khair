@@ -328,7 +328,47 @@ void preInPostTraversal(node* root) {
     cout << endl;
 }
 
+void right_view(vector<int> &ans,node* root,int level){
+    if(root==nullptr){
+        return ;
+    }
 
+    if(ans.size()==level){
+        ans.push_back(root->data);
+    }
+    // here we moves to right just for the sake of right view
+    right_view(ans,root->right,level+1);
+    right_view(ans,root->left,level+1);
+}
+void left_view(vector<int> &ans,node* root,int level){
+    if(root==nullptr){
+        return ;
+    }
+
+    if(ans.size()==level){
+        ans.push_back(root->data);
+    }
+    // here we moves to left just for the sake of right view
+    left_view(ans,root->left,level+1);
+    left_view(ans,root->right,level+1);
+}
+
+
+bool is_symmetric_help(node* rootl,node* rootr){
+    if(rootl==nullptr || rootr==nullptr){
+        return rootl==rootr;
+    }
+
+    if(rootl->data!=rootr->data){
+        return false;
+    }
+
+    return is_symmetric_help(rootl->left,rootr->right) && is_symmetric_help(rootl->right,rootr->left);
+}
+bool is_symmetric(node* root){
+
+    return root==nullptr || is_symmetric_help(root->left,root->right);
+}
 
 int main() {
     
@@ -374,5 +414,27 @@ int main() {
     // iterative_postorder_1st(root);
 
     // preInPostTraversal(root);
+
+
+
+    // using an preorder travel type techinique to get the right and left vie
+    // vector<int> ans;
+    // int level=0;
+    // right_view(ans,root,level);
+
+    // for(auto i : ans){
+    //     cout<<i<<" ";
+    // }
+
+
+    // vector<int> ans;
+    // int level=0;
+    // left_view(ans,root,level);
+
+    // for(auto i : ans){
+    //     cout<<i<<" ";
+    // }
+
+    cout<<is_symmetric(root);
     return 0;
 }
