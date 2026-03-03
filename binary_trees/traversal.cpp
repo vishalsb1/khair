@@ -370,6 +370,55 @@ bool is_symmetric(node* root){
     return root==nullptr || is_symmetric_help(root->left,root->right);
 }
 
+
+
+
+// find path to an node
+
+bool find_path(vector<int> &ans,node* root,int target){
+    if(root==nullptr){
+        return false;
+    }
+
+    ans.push_back(root->data);
+
+    if(root->data==target){
+        return true;
+    }
+
+    if (find_path(ans,root->left,target)|| find_path(ans,root->right,target)){
+        return true;
+    }
+
+    ans.pop_back();
+    return false;
+}
+
+
+
+node* lowest_comman_ancestor(node* root,int p,int q){
+
+    if(root==NULL|| root->data==p || root->data==q){
+        return root;
+    }
+
+    node* left=lowest_comman_ancestor(root->left,p,q);
+    node* right=lowest_comman_ancestor(root->right,p,q);
+
+    if(left==nullptr){
+        return right;
+    }
+    else if(right==nullptr) return left;
+    else{
+        // when both value are not null that means the current value is the `lca`
+        return root;
+    }
+
+}
+
+
+
+
 int main() {
     
     cout<<"give inputs for the tree \n Elements are pushed in preorder format (Root → Left → Right).For each node, first enter the left child,\n then the right child, and use -1 to indicate no node (NULL). The function recursively creates nodes and links them to form the binary tree."<<endl;
@@ -435,6 +484,32 @@ int main() {
     //     cout<<i<<" ";
     // }
 
-    cout<<is_symmetric(root);
+    // cout<<is_symmetric(root);
+
+
+    // find the path to the node
+    // cout<<endl;
+    // vector<int> ans;
+    // cout<<"Pls enter target value from the given binary tree : ";
+    // int target;
+    // cin>>target;
+
+    // bool solve=find_path(ans,root,target);
+
+    // for(auto i : ans){
+    //     cout<<i<<" ";
+    // }
+
+
+    // lowest sommon ancestor
+    cout<<"tell the p and q values respectively : ";
+
+    int p,q;
+    cin>>p;
+    cin>>q;
+    node* ans=lowest_comman_ancestor(root,p,q);
+    cout<<"the lowest common ancestor is "<< ans->data<<endl;;
+
+
     return 0;
 }
