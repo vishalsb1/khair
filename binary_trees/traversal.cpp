@@ -417,7 +417,35 @@ node* lowest_comman_ancestor(node* root,int p,int q){
 }
 
 
+// children sum problem 
+void change_tree(node* root){
+    if(root==nullptr) return ;
 
+    int child=0;
+
+    if(root->left){
+        child+=root->left->data;
+    }
+    if(root->right){
+        child+=root->right->data;
+    }
+
+    if(child>=root->data){
+        root->data=child;
+    }else{
+        if(root->left) root->left->data=root->data;
+        else if(root->right) root->right->data=root->data;
+    }
+
+    change_tree(root->left);
+    change_tree(root->right);
+
+    int total=0;
+    if(root->left) total+=root->left->data;
+    if(root->right) total+=root->right->data;
+    if(root->left || root->right) root->data=total;
+
+}
 
 int main() {
     
@@ -502,14 +530,18 @@ int main() {
 
 
     // lowest sommon ancestor
-    cout<<"tell the p and q values respectively : ";
+    // cout<<"tell the p and q values respectively : ";
 
-    int p,q;
-    cin>>p;
-    cin>>q;
-    node* ans=lowest_comman_ancestor(root,p,q);
-    cout<<"the lowest common ancestor is "<< ans->data<<endl;;
+    // int p,q;
+    // cin>>p;
+    // cin>>q;
+    // node* ans=lowest_comman_ancestor(root,p,q);
+    // cout<<"the lowest common ancestor is "<< ans->data<<endl;;
+    level_order_traversal_no_space(root);
 
 
+    change_tree(root);
+    cout<<"AFTER -> applying children sum problem ";
+    level_order_traversal_no_space(root);
     return 0;
 }
